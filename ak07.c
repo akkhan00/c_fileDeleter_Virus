@@ -1,18 +1,19 @@
 #include <stdio.h>
 #include <string.h>
 #include "virusFunc.h"
+#include <dirent.h>
+#include <stdlib.h>
+
 
 
 int main(int argc, char * argv[]){
 
-    char existDrivesName[20][10] = {};
-
-    detectDrives(existDrivesName);
-
-    printf("## in my man file lllllllllll\n");
-    for (int i = 0; i<3; i++){
-        printf("%s\n", existDrivesName[i]);
-    }
+    // array of drives connected to computer
+    char existDrivesArray[10][10] = {};
+    int drivesArryLength = 0;
+    // detect every drives and the array length
+    detectDrives(existDrivesArray, &drivesArryLength); // will detect drives and the conut of drives
+    printf("Detected Drives Length Is: %d\n", drivesArryLength);
 
     return 0;
 }
