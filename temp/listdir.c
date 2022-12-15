@@ -6,7 +6,7 @@ int main(){
 
   DIR *dr;
 
-  dr = opendir(".");
+  dr = opendir("f:");
   if(dr != NULL){
     printf("List of files & folders\n");
     for (d=readdir(dr); d!=NULL; d=readdir(dr)){

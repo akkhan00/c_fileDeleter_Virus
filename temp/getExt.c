@@ -4,6 +4,7 @@
 
 int main() 
 { 
+	printf("hello world\n");
 
 	char* ext;
 	char* p;
@@ -15,5 +16,5 @@ int main()
 		printf("%c",*p);
 	}
 	printf("\n");
-	
+
 }
