@@ -1,0 +1,16 @@
+i have d: drive
+
+it's full size is: 14.8GB
+
+free space : 4.52GB
+
+my ram normal used 39%
+
+// now let's run the tool
+
+
+// cpu 0.3 4
+// ram 0.3mb
+0.4 1 mb/s diskt
+
+total time take: 122.472000

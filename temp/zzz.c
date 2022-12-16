@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <string.h>
+// #include <stdio.h>
+// #include <string.h>
 
 // void addSomething(char *arr[], char *text, int index);
 
@@ -54,13 +54,58 @@
 // }
 
 
-int main(int argc, char *argv[]){
-	int index = 0;
-	char arr[20][20] = {}; // len willbe 0
-	strcpy(arr[index++], "end");	// length will 1
-	strcpy(arr[index++], "hack"); // lenth will 2
-	strcpy(arr[index++], "something"); // lenth will 3
-	printf("copyValue: %s\n", arr[1]);
-	printf("length is : %d\n", index);
+// int main(int argc, char *argv[]){
+// 	int index = 0;
+// 	char arr[20][20] = {}; // len willbe 0
+// 	strcpy(arr[index++], "end");	// length will 1
+// 	strcpy(arr[index++], "hack"); // lenth will 2
+// 	strcpy(arr[index++], "something"); // lenth will 3
+// 	printf("copyValue: %s\n", arr[1]);
+// 	printf("length is : %d\n", index);
+// 	return 0;
+// }
+
+// typedef struct {
+// 	char a[5];
+// 	char b[5];
+// 	char c[5];
+// } AK_Encryption;
+
+
+// int main(void){
+
+// 	// AK_Encryption arrr = {"0xyz9", "2wxy7"};
+
+// 	char st[6] = "2abc1";
+// 	printf("st: %s\n", st);
+
+// 	return 0;
+// }
+
+
+
+#include <stdio.h>
+#include <time.h>
+
+double fun(){
+	double a = 1;
+	for(int i = 1; i<100; i++){
+		a *= i;
+	}
+	// getchar();
+	return a;
+}
+
+int main(void){
+	clock_t start, end;
+	double cpu_time_used;
+
+	start = clock();
+	double a = fun();
+	end = clock();
+	cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+	printf("Total time taken is: %f\n", cpu_time_used);
+	printf("Value of a is: %lf\n", a);
 	return 0;
 }
+
