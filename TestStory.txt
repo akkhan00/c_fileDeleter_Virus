@@ -1,3 +1,5 @@
+/////// first test start /////
+
 i have d: drive
 
 it's full size is: 14.8GB
@@ -6,11 +8,13 @@ free space : 4.52GB
 
 my ram normal used 39%
 
-// now let's run the tool
+////start attack/// now let's run the tool
 
 
-// cpu 0.3 4
-// ram 0.3mb
-0.4 1 mb/s diskt
+// cpu 0.3 0.4 // tool take
+// ram 0.3 mb // tool take
+0.4 to 0.1 mb/s disk // tool take
 
 total time take: 122.472000
+deleted data: approximatly 10 gb data
+/////// first test end //////

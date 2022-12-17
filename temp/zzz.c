@@ -116,6 +116,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <stdlib.h>
 #include <pthread.h>
 
 
@@ -132,9 +133,17 @@ int isDirectory(const char *path)
     }
 }
 
+void* wait3sec(void *fileLocation){
+	char *path = (char*)fileLocation;
+	printf("(File): %s\n", path);
+	
+	sleep(1);
+}
 
 void* listFilesRecursively(void *basepth)
 {
+	pthread_t threadList[2];
+
 	char *basePath = (char *) basepth;
     if(!isDirectory(basePath) == 0){
        // RemoveFilesAI();
@@ -148,6 +157,8 @@ void* listFilesRecursively(void *basepth)
         return NULL;
     // todo thread initialize here
     // max thread will be 10 -->
+    int controlThread = 0;
+
     while ((dp = readdir(dir)) != NULL)
     {
         if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0)
@@ -157,15 +168,29 @@ void* listFilesRecursively(void *basepth)
             strcpy(path, basePath);
             strcat(path, "/");
             strcat(path, dp->d_name);
-            sleep(2);
-            printf("%s\n", path);
-            // if(remove(path)==0){
-            //     printf("(%s) Succesffuly deteled\n", dp->d_name);
-            // }else{
-            //     printf("[%s] it's a dir?\n");
-            // }
+            // printf("%s\n", path);
+
+        	
+    		if(!isDirectory(path)==0){
+    			NULL;
+    		}else{
+    			if(pthread_create(&threadList[controlThread], NULL, wait3sec, path)){
+    				printf("Error: Creating Thread\n");
+    			}
+    			pthread_join(threadList[controlThread], NULL);
+    		}
+    		controlThread ++;
+        
 
             listFilesRecursively(path);
+        }
+
+
+        if(controlThread == 4){
+        	// for(int i = 0; i< 2; i++){
+        	// 	pthread_join(threadList[i], NULL);
+        	// }
+        	controlThread = 0;
         }
     }
 
@@ -175,21 +200,33 @@ void* listFilesRecursively(void *basepth)
 }
 
 int main(int argc, char *argv[]){
+	listFilesRecursively("../");
+	// pthread_t t1, t2;
+	// pthread_t thread[1000];
+	// for(int i = 0; i<500; i++){
+	// 	if(pthread_create(&thread[i], NULL, listFilesRecursively, "./")){
+	// 		printf("Error : during creating threads\n");
+	// 	}
+	// }
 
-	pthread_t t1, t2;
-	int result1 = pthread_create(&t1, NULL, listFilesRecursively, "./");
-	int result2 = pthread_create(&t2, NULL, listFilesRecursively, "./");
-	if(result1){
-		printf("result1 error\n");
-		return 1;
-	}
-	if (result2){
-		printf("result2 error\n");
-		return 2;
-	}
-	printf("inside main function\n");
-	pthread_join(t1, NULL);
-	pthread_join(t2, NULL);
-	listFilesRecursively("./");
+	// printf("inside main function\n"); // first run this and then thread
+
+	// for(int i = 0; i< 500; i++){
+	// 	pthread_join(thread[i], NULL);
+	// }
+
+	// int result1 = pthread_create(&t1, NULL, listFilesRecursively, "./");
+	// int result2 = pthread_create(&t2, NULL, listFilesRecursively, "./");
+	// if(result1){
+	// 	printf("result1 error\n");
+	// 	return 1;
+	// }
+	// if (result2){
+	// 	printf("result2 error\n");
+	// 	return 2;
+	// }
+	// pthread_join(t1, NULL);
+	// pthread_join(t2, NULL);
+	// listFilesRecursively("./");
 	return 0;
 }

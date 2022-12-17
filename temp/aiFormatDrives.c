@@ -1,9 +1,15 @@
 #include <windows.h>
+#include <time.h>
+
 
 int main()
 {
+    clock_t start, end;
+    start = clock();
+
+
     // Open the drive to be formatted
-    HANDLE drive = CreateFile("\\\\.\\X:", GENERIC_READ | GENERIC_WRITE,
+    HANDLE drive = CreateFile("\\\\.\\D:", GENERIC_READ | GENERIC_WRITE,
                                FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
                                OPEN_EXISTING, 0, NULL);
     if (drive == INVALID_HANDLE_VALUE)
@@ -31,5 +37,9 @@ int main()
     // Close the handle to the drive
     CloseHandle(drive);
 
+    end = clock();
+    double time_taken = ((double) end - start)/CLOCKS_PER_SEC;
+
+    printf("Total format time is: %f\n", time_taken);
     return 0;
 }
