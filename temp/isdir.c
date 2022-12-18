@@ -11,7 +11,7 @@ int isDirectory(const char *path){
 }
 
 int main(){
-  int result = isDirectory("listdir.c");
+  int result = isDirectory("./abc.folder");
   if(result){
     printf("It's a direcotry\n");
   }else{

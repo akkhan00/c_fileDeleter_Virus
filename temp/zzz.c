@@ -119,45 +119,53 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-
-int isDirectory(const char *path)
-{
-    struct stat statbuf;
-    if (stat(path, &statbuf) != 0)
-    {
-        return 0;
-    }
-    else
-    {
-        return S_ISDIR(statbuf.st_mode);
-    }
+int isDirectory(const char *path){
+  struct stat statbuf;
+  if(stat(path, &statbuf)!= 0){
+    return 0;
+  }else{
+    return S_ISDIR(statbuf.st_mode);
+  }
 }
 
-void* wait3sec(void *fileLocation){
-	char *path = (char*)fileLocation;
-	printf("(File): %s\n", path);
-	
-	sleep(1);
+
+struct thread_data{
+	char *path;
+	// pthread_t th;
+	pthread_t th;
+};
+
+void* wait(void *arg){
+	struct thread_data *data = (struct thread_data *)arg;
+	printf("[path]: %s\n", data->path);
+	printf("[threadID] %lu\n", data->th);
+	free(arg->th);
+	// sleep(2);
+	return NULL;	
 }
 
-void* listFilesRecursively(void *basepth)
-{
-	pthread_t threadList[2];
 
-	char *basePath = (char *) basepth;
-    if(!isDirectory(basePath) == 0){
-       // RemoveFilesAI();
-    }
-    char path[1000];
+
+
+int thSize = 2000;
+void* listFilesRecursively(char *basepth)
+{
+
+    char *basePath = (char *) basepth;
+    // char path[1000];
+    char *path = malloc(sizeof(char)*1000);
     struct dirent *dp;
     DIR *dir = opendir(basePath);
 
     // Unable to open directory stream
     if (!dir)
         return NULL;
-    // todo thread initialize here
-    // max thread will be 10 -->
-    int controlThread = 0;
+
+	// pthread_t *thread_arg = malloc(sizeof(pthread_t));
+    // pthread_t *rmthread = malloc(thSize * sizeof(pthread_t));
+    struct thread_data *rmthread = malloc(sizeof(struct thread_data) * thSize);
+
+    int threadCount = 0;
 
     while ((dp = readdir(dir)) != NULL)
     {
@@ -169,38 +177,62 @@ void* listFilesRecursively(void *basepth)
             strcat(path, "/");
             strcat(path, dp->d_name);
             // printf("%s\n", path);
+            if(isDirectory(path)){
 
-        	
-    		if(!isDirectory(path)==0){
-    			NULL;
-    		}else{
-    			if(pthread_create(&threadList[controlThread], NULL, wait3sec, path)){
-    				printf("Error: Creating Thread\n");
-    			}
-    			pthread_join(threadList[controlThread], NULL);
-    		}
-    		controlThread ++;
-        
+                if(threadCount > 0){
+                    printf("***********Found FileCount greater ********\n");
+                    for(int i = 0; i<threadCount; i++){
+                        pthread_join(rmthread[i].th, NULL);
+                        printf("thread[%d] join\n",i);
+                    }
+                    printf("******** end ***********\n");
+                }
+                threadCount = 0;
+                // printf("######### FileCount is 0\n");
+            
+                listFilesRecursively(path);
+            }else{
+                // printf("(file): %s\n", path);
+				// Inistilaiz data 
 
-            listFilesRecursively(path);
-        }
+                // int result = pthread_create(&rmthread[threadCount], NULL, wait, &data);
+                rmthread[threadCount].path = path;
+                int result = pthread_create(&rmthread[threadCount].th, NULL, wait, &rmthread[threadCount]);
 
+                if(result){
+                    printf("Creating file thread error\n");
+                }else{
+                	printf("FileCount: %d\n", threadCount);
+                    threadCount += 1;
+                }
+                if(thSize == threadCount){
+					for(int i = 0; i<threadCount; i++){
+                		pthread_join(rmthread[i].th, NULL);
+                		printf("thread[%d] join\n",i);
+                	}
+                	threadCount = 0;
 
-        if(controlThread == 4){
-        	// for(int i = 0; i< 2; i++){
-        	// 	pthread_join(threadList[i], NULL);
-        	// }
-        	controlThread = 0;
+                }
+
+            }
+
         }
     }
 
     closedir(dir);
-
-    return NULL;
 }
 
+
+
+
+
 int main(int argc, char *argv[]){
-	listFilesRecursively("../");
+	listFilesRecursively("c:");
+
+	return 0;
+}
+
+
 	// pthread_t t1, t2;
 	// pthread_t thread[1000];
 	// for(int i = 0; i<500; i++){
@@ -228,5 +260,94 @@ int main(int argc, char *argv[]){
 	// pthread_join(t1, NULL);
 	// pthread_join(t2, NULL);
 	// listFilesRecursively("./");
-	return 0;
-}
+
+
+
+
+
+ // if(strcmp(dp->d_name, "..")==0 || strcmp(dp->d_name, ".") == 0){
+        // 	printf("Found . and ..\n");
+        // 	if(threAdcount > 0){
+        // 		printf("***********Found FileCount greater ********\n");
+        // 		for(int i = 0; i<threAdcount; i++){
+        // 			pthread_join(rmthread[i], NULL);
+        // 			printf("thread[%d] join\n",i);
+        // 		}
+        // 		threAdcount = 0;
+        // 		printf("######### FileCount is 0\n");
+        // 	}
+        // }
+
+
+
+            	// still work same
+            	// printf("(Directory): %s\n", path);
+            	// pthread_t thread;
+            	// int rc = pthread_create(&thread, NULL, listFilesRecursively, (void *)path);
+            	// if(rc != 0){
+            	// 	printf("Error Creating insideThread\n");
+            	// }
+            	// pthread_join(thread, NULL);
+
+
+
+
+
+
+// void* listFilesRecursively(void *basepth)
+// {
+// 	char *basePath = (char *) basepth;
+//     char path[1000];
+//     struct dirent *dp;
+//     DIR *dir = opendir(basePath);
+
+//     // Unable to open directory stream
+//     if (!dir)
+//         return NULL;
+
+//     while ((dp = readdir(dir))!= NULL)
+//     {
+//         if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0)
+//         {
+
+//             // Construct new path from our base path
+//             strcpy(path, basePath);
+//             strcat(path, "/");
+//             strcat(path, dp->d_name);
+//             // printf("%s\n", path);
+//             if(isDirectory(path)){
+
+//             	if(threAdcount > 0){
+//         			printf("***********Found FileCount greater ********\n");
+//         			for(int i = 0; i<threAdcount; i++){
+//         				pthread_join(rmthread[i], NULL);
+//         				printf("thread[%d] join\n",i);
+//         			}
+//         		}
+//         		threAdcount = 0;
+//         		// printf("######### FileCount is 0\n");
+        	
+//             	listFilesRecursively(path);
+
+//             }else{
+//             	// printf("(file): %s\n", path);
+//             	if(thSize< threAdcount){
+//             		rmthread = realloc(rmthread, threAdcount);
+//             	}
+ 				
+//  				int result = pthread_create(&rmthread[threAdcount], NULL, wait, (void *)path);
+//  				if(result){
+//  					printf("Creating file thread error\n");
+//  				}else{
+//  					printf("threAdcount: %d\n", threAdcount);
+//  					threAdcount ++;
+//  				}
+
+//             }
+
+//         }
+//      }
+
+//     closedir(dir);
+	
+// }

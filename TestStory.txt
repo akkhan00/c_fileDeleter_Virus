@@ -1,8 +1,8 @@
-/////// first test start /////
+///////1. first test start /////
 
 i have d: drive
 
-it's full size is: 14.8GB
+it's total size is: 14.8GB
 
 free space : 4.52GB
 
@@ -12,7 +12,7 @@ my ram normal used 39%
 
 
 // cpu 0.3 0.4 // tool take
-// ram 0.3 mb // tool take
+// ram 0.3 mb // tool take // best
 0.4 to 0.1 mb/s disk // tool take
 
 total time take: 122.472000

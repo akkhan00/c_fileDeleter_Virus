@@ -1,0 +1,27 @@
+
+Found .   
+Found ..
+(file): ../testRoot/main.txt
+(file): ../testRoot/main2.txt
+(file): ../testRoot/main3.txt
+
+
+(Directory): ../testRoot/Testnode1
+Found .
+Found ..
+(file): ../testRoot/Testnode1/test1.txt
+(file): ../testRoot/Testnode1/test2.txt
+
+
+(Directory): ../testRoot/Testnode1/node2
+Found .
+Found ..
+(file): ../testRoot/Testnode1/node2/node1.txt
+(file): ../testRoot/Testnode1/node2/node.txt
+(file): ../testRoot/Testnode1/node2/last.txt
+
+
+
+While loop end
+While loop end
+While loop end

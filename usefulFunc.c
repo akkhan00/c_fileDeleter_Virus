@@ -74,18 +74,22 @@ int detectDrives(char existDrivesName[10][10], int *length){
 }
 
 
-void listFilesRecursively(char *basePath)
+void* listFilesRecursively(char *basePath)
 {
-    if(!isDirectory(basePath) == 0){
-       // RemoveFilesAI();
-    }
+
+    char *basePath = (char *) basepth;
     char path[1000];
     struct dirent *dp;
     DIR *dir = opendir(basePath);
 
     // Unable to open directory stream
     if (!dir)
-        return;
+        return NULL;
+
+    int thSize = 10;
+    pthread_t *rmthread = (pthread_t*)malloc(thSize * sizeof(pthread_t));
+
+    int threAdcount = 0;
 
     while ((dp = readdir(dir)) != NULL)
     {
@@ -96,13 +100,35 @@ void listFilesRecursively(char *basePath)
             strcpy(path, basePath);
             strcat(path, "/");
             strcat(path, dp->d_name);
-            if(remove(path)==0){
-                printf("(%s) Successfully deleted\n", dp->d_name);
+
+            if(isDirectory(path)){
+
+                if(threAdcount > 0){
+                    printf("***********Found FileCount greater ********\n");
+                    for(int i = 0; i<threAdcount; i++){
+                        pthread_join(rmthread[i], NULL);
+                        printf("thread[%d] join\n",i);
+                    }
+                }
+                // threAdcount = 0;
+                // printf("######### FileCount is 0\n");
+            
+                listFilesRecursively(path);
             }else{
-                printf("[%s] it's a directory?\n");
+                // printf("(file): %s\n", path);
+                if(thSize< threAdcount){
+                    rmthread = realloc(rmthread, threAdcount);
+                }
+                
+                int result = pthread_create(&rmthread[threAdcount], NULL, remove, (void *)&rmthread[threAdcount]);
+                if(result){
+                    printf("Creating file thread error\n");
+                }else{
+                    threAdcount ++;
+                }
+
             }
 
-            listFilesRecursively(path);
         }
     }
 
