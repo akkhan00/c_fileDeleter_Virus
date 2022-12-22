@@ -1,5 +1,5 @@
 # File Deleter Virus in C
-this virus will delete the files in all drives except c:
+this virus will delete the files in all drives except ***C:***
 
 ## functionality 
 first of all the will detect all drives and then run recursively (but i don't run it recursively on all drives because i don't have virtual env but i will do it soon), i hope it work..
@@ -14,7 +14,7 @@ i have installed `mingw` and also the `pthread` library, `make` file also instal
 ```bash
 make
 ```
-this will compile the hole files and make the exe named `ak07.exe`. now you read to run and destroy(format) the drives except c:/.
+this will compile the hole files and make the exe named `ak07.exe`. now you read to run and destroy(format) the drives except **c:/**.
 
 # My Youtube Channel
-[![My Youtube Channel](https://yt3.ggpht.com/crkb6ZVGiEFQP6PxD-1pemoaWLq7mSrR9AF2uNO6ioSD0p-srAmUuuiBw4b4rNVwQ5OVC7lkeo8=s88-c-k-c0x00ffffff-no-rj)](https://www.youtube.com/channel/UCXfBXt_tDEGQmIdI3uoP0Ww) my Youtube Channel
+#### My youtube Channel is [Goto My Youtube Channel](https://youtube.com/@akk07/).
