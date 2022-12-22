@@ -5,6 +5,10 @@ this virus will delete the files in all drives except ***C:***
 first of all the will detect all drives and then run recursively (but i don't run it recursively on all drives because i don't have virtual env but i will do it soon), i hope it work..
 i have also made a function which will copy picture to target directory which you want and then set the desktop wallpaper to that picture when the deletion is finished.
 
+## Project structure
+this file in `temp` and **testRoot** directory are my research so you can delete it or just study it.
+
+
 ## exceptions
 first of all i implement the threading functionality to remove recursively but it's remove half drives item and some of them remain. so i removed the threading functionality but i will try again!.
 
