@@ -17,6 +17,6 @@ make
 this will compile the hole files and make the exe named `ak07.exe`. now you read to run and destroy(format) the drives except **c:/**.
 
 # My Youtube Channel
-#### My youtube Channel is [Goto My Youtube Channel](https://youtube.com/@akk07/){:target="_blank" rel="noopener"}
+#### My youtube Channel is [Goto My Youtube Channel](https://youtube.com/@akk07/ :target="_blank")
 
 # Todos to add into this project
