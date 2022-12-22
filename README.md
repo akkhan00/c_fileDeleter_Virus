@@ -20,3 +20,6 @@ this will compile the hole files and make the exe named `ak07.exe`. now you read
 #### My youtube Channel is [Goto My Youtube Channel](https://youtube.com/@akk07/)
 
 # Todos to add into this project
+
+- [x] Speed the Deleting functionality.
+- [ ] Fix other issues if exists.
